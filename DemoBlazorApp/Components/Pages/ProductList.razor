@@ -1,0 +1,87 @@
+﻿@page "/productList"
+@inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<PageTitle>Product List</PageTitle>
+
+<h3>ProductList</h3>
+
+<div>
+	<table class="table table-bordered border-primary">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Created On</th>
+				<th>Status</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in products)
+			{
+				<tr @key="item.Id">
+					<td>@item.Id</td>
+					<td>@item.Name</td>
+					<td>@item.Description</td>
+					<td>@item.CreateOn</td>
+					<td>@item.Status</td>
+					<td>
+						<button type="button" class="btn btn-primary" @onclick="() => RemoveItem(item.Id)">Remove</button>
+						<button type="button" class="btn btn-primary pt-1">Update</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<PageTitle>Product List</PageTitle>
+
+<h3>Product</h3>
+
+
+<EditForm Model="@product" @OnValidSubmit="AddProduct()">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<label>Name:</label>
+	<InputText @bind-Value="@product.Name" class="form-control" />
+
+	<label>Description</label>
+	<InputText @bind-Value="@product.Description" class="form-control" />
+
+
+	<label>Price</label>
+	<InputNumber @bind-Value="@product.Price" class="form-control" />
+
+
+	<label>Created On</label>
+	<InputDate @bind-Value="@product.Price" class="form-control" />
+
+
+	<label>Dealer</label>
+	<InputSelect @bind-Value="@product.DealerId" class="form-control">
+		<option value="">Choose the Dealer</option>
+		@foreach (var item in dealers)
+		{
+			<option value="@item.Id">@item.Name</option>
+		}
+
+	</InputSelect>
+
+	<label>Status</label>
+	<InputCheckbox @bind-Value="@product.Status" class="form-control" />
+	<button class="btn btn-primary"> Submit</button>
+</EditForm>
+
+
+
+@if (isAlertVisible)
+{
+	<div class="alert alert-warning">
+		The product have not fount
+		<button @onclick="HideAlert">Close</button>
+	</div>
+}

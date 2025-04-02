@@ -1,0 +1,43 @@
+﻿@page "/product/{Id:Guid?}"
+@using DemoBlazorApp.Components.Models
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<PageTitle>Product List</PageTitle>
+
+<h3>Product</h3>
+
+
+<EditForm Model="@product" >
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<label>Name:</label>
+	<InputText @bind-Value="@product.Name" class="form-control" />
+
+	<label>Description</label>
+	<InputText @bind-Value="@product.Description" class="form-control" />
+
+
+	<label>Price</label>
+	<InputNumber @bind-Value="@product.Price" class="form-control" />
+
+
+	<label>Created On</label>
+	<InputDate @bind-Value="@product.Price" class="form-control" />
+
+
+	<label>Dealer</label>
+	<InputSelect @bind-Value="@product.DealerId" class="form-control" >
+		<option value="">Choose the Dealer</option>
+		@foreach(var item in dealers)
+		{
+			<option value="@item.Id">@item.Name</option>
+		}
+	
+	</InputSelect>
+
+	<label>Status</label>
+	<InputCheckbox @bind-Value="@product.Status" class="form-control" />
+
+</EditForm>
+
